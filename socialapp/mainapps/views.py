@@ -67,4 +67,5 @@ def logout(request):
 
 @login_required(login_url='signin')
 def settings(request):
+    user_profile = Profile.objects.get(user=request.user)
     return render(request,'setting.html')
