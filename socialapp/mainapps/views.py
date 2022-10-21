@@ -66,6 +66,10 @@ def logout(request):
     return redirect('signin')
 
 @login_required(login_url='signin')
+def upload(request):
+    return HttpResponse('<h1> Upload View </h1>')
+
+@login_required(login_url='signin')
 def settings(request):
     user_profile = Profile.objects.get(user=request.user)
     if request.method == 'POST':
