@@ -14,9 +14,20 @@ def index(request):
     posts = Post.objects.all()
     return render(request,'index.html', {'user_profile' : user_profile, 'posts':posts} )
 
-# @login_required(login_url='signin')
+@login_required(login_url='signin')
 def profile(request,pk):
-    return render(request,'profile.html',)
+    user_object = User.objects.get(username=pk)
+    user_profile = Profile.objects.get(user=user_object)
+    user_posts = Post.objects.filter(user=pk)
+    user_posts_length = len(user_posts)
+    
+    context = {
+        'user_object':user_object,
+        'user_profile':user_profile,
+        'user_posts':user_posts,
+        'user_posts_length':user_posts_length,
+    }
+    return render(request,'profile.html',context)
 
 def signup(request):
     if request.method == 'POST':
