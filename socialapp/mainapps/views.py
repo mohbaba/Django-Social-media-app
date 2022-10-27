@@ -80,6 +80,7 @@ def signin(request):
             return redirect('signin')
     else:
         return render(request,'signin.html')
+    
 @login_required(login_url='signin')    
 def logout(request):
     auth.logout(request)
@@ -117,6 +118,7 @@ def like_post(request):
         post.no_of_likes = post.no_of_likes -1
         post.save()
     return redirect('/')
+
 @login_required(login_url='signin')
 def settings(request):
     user_profile = Profile.objects.get(user=request.user)
