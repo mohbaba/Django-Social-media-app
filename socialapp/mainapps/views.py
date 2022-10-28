@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User,  auth
+from django.contrib.auth.models import User,auth
 from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
@@ -21,11 +21,17 @@ def profile(request,pk):
     user_posts = Post.objects.filter(user=pk)
     user_posts_length = len(user_posts)
     
+
+    
+    
+    
     context = {
         'user_object':user_object,
         'user_profile':user_profile,
         'user_posts':user_posts,
         'user_posts_length':user_posts_length,
+        
+        
     }
     return render(request,'profile.html',context)
 
@@ -153,3 +159,7 @@ def settings(request):
         
         return redirect('settings')
     return render(request,'setting.html', {'user_profile': user_profile})
+
+@login_required(login_url='signin')
+def follow(request):
+    pass
