@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User,auth
+from django.contrib.auth.models import User,auth  # type: ignore
 from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from .models import Profile , Post, LikePost
+from .models import Profile , Post, LikePost, FollowersCount
 
 # Create your views here.
 
@@ -61,7 +61,7 @@ def signup(request):
                 #Create profile for user
                 
                 user_model = User.objects.get(username=username)
-                new_profile = Profile.objects.create(user=user_model,id_user = user_model.id)
+                new_profile = Profile.objects.create(user=user_model,id_user = user_model.id)  # type: ignore
                 new_profile.save()
                 return redirect('settings')
         else:
@@ -136,7 +136,7 @@ def settings(request):
             last_name = request.POST['lastname']
             location = request.POST['location']
             
-            user_profile.profileimg = image
+            user_profile.profileimg = image  # type: ignore
             user_profile.bio = bio
             user_profile.first_name = first_name
             user_profile.last_name = last_name
@@ -154,12 +154,25 @@ def settings(request):
             user_profile.first_name = first_name
             user_profile.last_name = last_name
             user_profile.location = location
-            user_profile.save()
-           
+            user_profile.save()        
         
         return redirect('settings')
     return render(request,'setting.html', {'user_profile': user_profile})
 
-@login_required(login_url='signin')
+
+@login_required(login_url='signin')  # type: ignore
 def follow(request):
-    pass
+    if request.method == 'POST':
+        follower = request.POST['follower']
+        user = request.POST['user']
+        
+        if FollowersCount.objects.filter(follower=follower, user=user).first():
+            delete_follower = FollowersCount.objects.get(follower = follower, user = user)
+            delete_follower.delete()
+            return redirect('/profile/'+user)
+        else:
+            new_follower = FollowersCount.objects.create(follower= follower, user= user)
+            new_follower.save()
+        
+    else:
+        return redirect('/')

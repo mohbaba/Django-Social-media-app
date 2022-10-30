@@ -17,7 +17,7 @@ class Profile(models.Model):
     location = models.CharField(max_length=100, blank = True)
     
     def __str__(self) :
-        return self.user.username
+        return self.user.username  # type: ignore
 
 
 class Post(models.Model):
@@ -33,7 +33,6 @@ class Post(models.Model):
         return self.user
 
 class CoverImage(models.Model):
-    
     cover_image = models.ImageField(upload_to = 'cover_photos', default = 'BlankPic.jpg')
     
     
