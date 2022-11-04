@@ -21,10 +21,6 @@ def profile(request,pk):
     user_posts = Post.objects.filter(user=pk)
     user_posts_length = len(user_posts)
     
-
-    
-    
-    
     context = {
         'user_object':user_object,
         'user_profile':user_profile,
@@ -160,7 +156,7 @@ def settings(request):
     return render(request,'setting.html', {'user_profile': user_profile})
 
 
-@login_required(login_url='signin')  # type: ignore
+@login_required(login_url='signin')  
 def follow(request):
     if request.method == 'POST':
         follower = request.POST['follower']
@@ -173,6 +169,7 @@ def follow(request):
         else:
             new_follower = FollowersCount.objects.create(follower= follower, user= user)
             new_follower.save()
+            return redirect('/profile/'+user)
         
     else:
         return redirect('/')
