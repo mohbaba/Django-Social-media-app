@@ -1,8 +1,9 @@
 from django.urls import path
-from .views import index,signup,signin,logout,settings,upload,like_post,profile,follow
+from .views import *
 
 urlpatterns = [
     path('', index ,name='index'),
+    path('search',search, name = 'search'),
     path('follow', follow ,name='follow'),
     path('upload',upload,name='upload'),
     path('like-post',like_post,name='like-post'),
